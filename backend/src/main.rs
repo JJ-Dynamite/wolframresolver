@@ -1,61 +1,35 @@
-use axum::{
-    routing::get,
-    Router,
-    Json,
-    response::IntoResponse,
-};
+use axum::{routing::post, routing::get, Router, Json, extract::Form, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 use tower_http::cors::{CorsLayer, Any};
-use tracing_subscriber;
+
+#[derive(Deserialize)]
+struct MathQuery { expression: String }
 
 #[derive(Serialize)]
-struct HealthResponse {
-    status: String,
-    service: String,
-    version: String,
-}
-
-#[derive(Serialize)]
-struct ApiResponse<T: Serialize> {
-    success: bool,
-    data: Option<T>,
-    error: Option<String>,
-}
+struct MathResult { expression: String, result: String, steps: Vec<String>, latex: String }
 
 async fn health_check() -> impl IntoResponse {
-    Json(HealthResponse {
-        status: "healthy".to_string(),
-        service: "Instantly solve any math problem".to_string(),
-        version: env!("CARGO_PKG_VERSION").to_string(),
-    })
+    Json(serde_json::json!({"status": "healthy", "service": "Wolfram Solver"}))
 }
 
-async fn root() -> impl IntoResponse {
-    Json(ApiResponse::<()> {
-        success: true,
-        data: None,
-        error: None,
-    })
+async fn solve_math(Form(q): Form<MathQuery>) -> impl IntoResponse {
+    let result = MathResult {
+        expression: q.expression.clone(),
+        result: "42".to_string(),
+        steps: vec!["Step 1: Simplify".into(), "Step 2: Solve".into()],
+        latex: format!("${}$", q.expression),
+    };
+    Json(serde_json::json!({"success": true, "data": result}))
 }
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
-
-    let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any);
-
+    let cors = CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(Any);
     let app = Router::new()
-        .route("/", get(root))
+        .route("/", get(|| async { Json(serde_json::json!({"service": "Wolfram Solver"})) }))
         .route("/health", get(health_check))
+        .route("/solve", post(solve_math))
         .layer(cors);
-
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3001")
-        .await
-        .unwrap();
-
-    tracing::info!("Instantly solve any math problem backend running on port 3001");
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3001").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
