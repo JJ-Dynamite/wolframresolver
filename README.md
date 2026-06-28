@@ -1,6 +1,6 @@
 # Instantly solve any math problem
 
-[![CI](https://github.com/JJ-Dynamite/wolfram-solver/actions/workflows/ci.yml/badge.svg)](https://github.com/JJ-Dynamite/wolfram-solver/actions/workflows/ci.yml)
+[![CI](https://github.com/JJ-Dynamite/faang-wolfram-solver/actions/workflows/ci.yml/badge.svg)](https://github.com/JJ-Dynamite/faang-wolfram-solver/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > Instantly solve any math problem - Production-ready full-stack application
@@ -25,7 +25,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/JJ-Dynamite/wolfram-solver.git
+git clone https://github.com/JJ-Dynamite/faang-wolfram-solver.git
 cd wolfram-solver
 
 # Install backend dependencies
