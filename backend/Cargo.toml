@@ -1,11 +1,11 @@
 [package]
-name = "faang-wolfram-solver-backend"
+name = "wolframresolver-backend"
 version = "0.1.0"
 edition = "2021"
 description = "Instantly solve any math problem - Backend API"
 authors = ["JJ-Dynamite"]
 license = "MIT"
-repository = "https://github.com/JJ-Dynamite/faang-wolfram-solver"
+repository = "https://github.com/JJ-Dynamite/wolframresolver"
 
 [dependencies]
 axum = "0.7"

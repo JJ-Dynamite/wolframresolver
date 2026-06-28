@@ -1,4 +1,4 @@
-# Contributing to faang-wolfram-solver
+# Contributing to wolframresolver
 
 Thank you for your interest in contributing!
 
